@@ -6,6 +6,7 @@ SetWorkingDir %A_ScriptDir%
 #MaxThreadsPerHotkey 2
 
 #Include Gdip.ahk
+#Include WinGetPosEx.ahk
 #Include utility.ahk
 
 ; ========================================
@@ -42,33 +43,35 @@ If (!InStr(FileExist(folderPath), "D")) {
 
 ; ========================================
 
-Hotkey, %bindHotkey%, gdipScreenshot
+mainRoutine:
+    Hotkey, %bindHotkey%, gdipScreenshot
+Return
 
 gdipScreenshot:
     ; get active window stats
-    WinGetActiveStats, winTitle, winWidth, winHeight, winPosX, winPosY
+    currentWindow := WinExist("A")
     
-    ; adjustments to get client window
-    SysGet, borderX, 32
-    SysGet, borderY, 33
-    SysGet, titleHeight, 4
+    WinGetPosEx(currentWindow, winPosX, winPosY, winWidth, winHeight)
+    GetClientSize(currentWindow, clientWidth, clientHeight)
     
     If (includeBorder == 0) {
-        winPosX := winPosX + borderX
-        winWidth := winWidth - (borderX * 2)
+        borderSize := (winWidth - clientWidth) / 2
+        borderSize := Floor(borderSize)
+        If (borderSize < 0) {
+            borderSize := 0
+        }
         
-        winPosY := winPosY + borderY + titleHeight
-        winHeight := winHeight - (borderY * 2) - titleHeight
-    }
-    Else {
-        If (winPosX < 0) {
-            winWidth := winWidth + (winPosX * 2)
-            winPosX := 0
+        titleSize := (winHeight - clientHeight) - (2 * borderSize)
+        titleSize := Floor(titleSize)
+        If (titleSize < 0) {
+            titleSize := 0
         }
-        If (winPosY < 0) {
-            winHeight := winHeight + (winPosY * 2)
-            winPosY := 0
-        }
+        
+        winPosX := winPosX + borderSize
+        winPosY := winPosY + borderSize + titleSize
+        
+        winWidth := clientWidth
+        winHeight := clientHeight
     }
     
     ; prepare position

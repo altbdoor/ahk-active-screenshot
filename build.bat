@@ -20,7 +20,7 @@ echo Building .exe file
 "%ahk2exe_path%" /in %input_name% /out %output_name%.exe
 
 echo Zipping .exe file
-"%szexe_path%" a -tzip -mx9 %output_name%.zip %output_name%.exe
+"%szexe_path%" a -tzip -mx9 %output_name%.zip %output_name%.exe settings.ini
 
 echo Done
 pause

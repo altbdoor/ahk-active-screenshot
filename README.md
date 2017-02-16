@@ -10,8 +10,8 @@ This application relies heavily on [GDI+ library by tariqporter](https://github.
 
 ### Usage
 
-1. Download the `.zip`, or the `.exe` from Releases
-1. Run the application respectively (`main.ahk` for AHK)
+1. Download the latest `.zip` from [Releases](https://github.com/altbdoor/ahk-active-screenshot/releases) and unzip it
+1. Run the executable application
 1. Press the defined hotkey (`Ctrl` + `F11`)
 1. Get screenshots!
 

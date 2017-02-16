@@ -73,6 +73,16 @@ gdipScreenshot:
         winWidth := clientWidth
         winHeight := clientHeight
     }
+    Else {
+        If (winPosX < 0) {
+            winWidth := winWidth + (winPosX * 2)
+            winPosX := 0
+        }
+        If (winPosY < 0) {
+            winHeight := winHeight + (winPosY * 2)
+            winPosY := 0
+        }
+    }
     
     ; prepare position
     gdipPos := JoinArray([winPosX, winPosY, winWidth, winHeight], "|")

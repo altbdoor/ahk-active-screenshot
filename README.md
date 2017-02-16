@@ -5,7 +5,7 @@ A simple, configurable application to take screenshots of the active window in W
 
 Created after the forced anti-aliasing settings from my graphics card was not visible in the in-game screenshot function, but was visible on the game window.
 
-This application relies heavily on [GDI+ library by tariqporter](https://github.com/tariqporter/Gdip). Do check it out!
+This application relies heavily on [GDI+ library by tariqporter](https://github.com/tariqporter/Gdip) and [WinGetPosEx by jballi](https://autohotkey.com/boards/viewtopic.php?t=3392). Do check these projects out!
 
 
 ### Usage

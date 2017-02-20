@@ -21,9 +21,11 @@ defaultFolderPath := A_ScriptDir . "\screenshots\"
 
 bindHotkey := ReadSettings("bindHotkey", "^F11")
 folderPath := ReadSettings("outputFolderPath", defaultFolderPath)
+filenameFormat := ReadSettings("filenameFormat", "yyyyMMdd_hhmmss")
 imageFormat := ReadSettings("imageFormat", "png")
 imageQuality := ReadSettings("imageQuality", 95)
 includeBorder := ReadSettings("includeWindowBorder", 0)
+shutterSoundPath := ReadSettings("shutterSoundPath", "")
 
 ; fix the folder path
 If (Substr(folderPath, 0) != "\") {
@@ -88,13 +90,18 @@ gdipScreenshot:
     gdipPos := JoinArray([winPosX, winPosY, winWidth, winHeight], "|")
     
     ; prepare path
-    fileName := JoinArray([A_YYYY, A_MM, A_DD, A_Hour, A_Min, A_Sec], "_")
-    savePath := folderPath . fileName . "." . imageFormat
+    FormatTime, currentFilenameFormat, A_Now, %filenameFormat%
+    savePath := folderPath . currentFilenameFormat . "." . imageFormat
     
     ; let the black magic run
     gdipImage := Gdip_BitmapFromScreen(gdipPos)
     Gdip_SaveBitmapToFile(gdipImage, savePath, imageQuality)
     Gdip_DisposeImage(gdipImage)
+    
+    ; play the shutter sound
+    If (FileExist(shutterSoundPath)) {
+        SoundPlay, %shutterSoundPath%
+    }
 Return
 
 gdipShutdown:

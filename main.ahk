@@ -21,7 +21,7 @@ defaultFolderPath := A_ScriptDir . "\screenshots\"
 
 bindHotkey := ReadSettings("bindHotkey", "^F11")
 folderPath := ReadSettings("outputFolderPath", defaultFolderPath)
-filenameFormat := ReadSettings("filenameFormat", "yyyyMMdd_hhmmss")
+filenameFormat := ReadSettings("filenameFormat", "yyyyMMdd_HHmmss")
 imageFormat := ReadSettings("imageFormat", "png")
 imageQuality := ReadSettings("imageQuality", 95)
 includeBorder := ReadSettings("includeWindowBorder", 0)

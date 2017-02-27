@@ -17,7 +17,7 @@ if EXIST %output_name%.zip del /F %output_name%.zip
 
 :: build and zip
 echo Building .exe file
-"%ahk2exe_path%" /in %input_name% /out %output_name%.exe
+"%ahk2exe_path%" /in %input_name% /icon icon\icon.ico /out %output_name%.exe
 
 echo Zipping .exe file
 "%szexe_path%" a -tzip -mx9 %output_name%.zip %output_name%.exe settings.ini

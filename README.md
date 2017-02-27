@@ -1,6 +1,8 @@
 ahk-active-screenshot
 ===
 
+![](https://cdn.rawgit.com/altbdoor/ahk-active-screenshot/25e98f04/icon/icon.ico)
+
 A simple, configurable application to take screenshots of the active window in Windows.
 
 Created after the forced anti-aliasing settings from my graphics card was not visible in the in-game screenshot function, but was visible on the game window.

@@ -34,3 +34,30 @@ GetClientSize(hwnd, ByRef w, ByRef h) {
     w := NumGet(rc, 8, "int")
     h := NumGet(rc, 12, "int")
 }
+
+; https://autohotkey.com/board/topic/17922-func-relativepath-absolutepath/page-2#entry117350
+RelToAbs(root, dir, s = "\") {
+    pr := SubStr(root, 1, len := InStr(root, s, "", InStr(root, s . s) + 2) - 1)
+        , root := SubStr(root, len + 1), sk := 0
+    If InStr(root, s, "", 0) = StrLen(root)
+        StringTrimRight, root, root, 1
+    If InStr(dir, s, "", 0) = StrLen(dir)
+        StringTrimRight, dir, dir, 1
+    Loop, Parse, dir, %s%
+    {
+        If A_LoopField = ..
+            StringLeft, root, root, InStr(root, s, "", 0) - 1
+        Else If A_LoopField =
+            root =
+        Else If A_LoopField != .
+            Continue
+        StringReplace, dir, dir, %A_LoopField%%s%
+    }
+    Return, pr . root . s . dir
+}
+
+NeutralizePathLastSlash(path) {
+    path := path . "\"
+    path := RegExReplace(path, "\\+$", "\")
+    Return path
+}

@@ -26,10 +26,15 @@ imageFormat := ReadSettings("imageFormat", "png")
 imageQuality := ReadSettings("imageQuality", 95)
 includeBorder := ReadSettings("includeWindowBorder", 0)
 shutterSoundPath := ReadSettings("shutterSoundPath", "")
+postProcess := ReadSettings("postProcess", "")
 
 ; fix the folder path
-If (Substr(folderPath, 0) != "\") {
-    folderPath := folderPath . "\"
+folderPath := NeutralizePathLastSlash(folderPath)
+
+isFolderPathRelative := DllCall("shlwapi\PathIsRelative", "str", folderPath)
+If (isFolderPathRelative) {
+    folderPath := RelToAbs(A_ScriptDir, folderPath)
+    folderPath := NeutralizePathLastSlash(folderPath)
 }
 
 ; check if folder is missing
@@ -91,12 +96,24 @@ gdipScreenshot:
     
     ; prepare path
     FormatTime, currentFilenameFormat, A_Now, %filenameFormat%
-    savePath := folderPath . currentFilenameFormat . "." . imageFormat
+    currentFilename := currentFilenameFormat . "." . imageFormat
+    savePath := folderPath . currentFilename
     
     ; let the black magic run
     gdipImage := Gdip_BitmapFromScreen(gdipPos)
     Gdip_SaveBitmapToFile(gdipImage, savePath, imageQuality)
     Gdip_DisposeImage(gdipImage)
+    
+    If (postProcess != "") {
+        ; post process with variables
+        postProcess := StrReplace(postProcess, "{$imgDir}", folderPath)
+        postProcess := StrReplace(postProcess, "{$imgName}", currentFilename)
+        postProcess := StrReplace(postProcess, "{$imgFullPath}", savePath)
+        postProcess := StrReplace(postProcess, "{$imgBasename}", currentFilenameFormat)
+        postProcess := StrReplace(postProcess, "{$imgExt}", imageFormat)
+        
+        Run, %comspec% /c %postProcess%, , Hide
+    }
     
     ; play the shutter sound
     If (FileExist(shutterSoundPath)) {

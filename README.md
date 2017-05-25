@@ -46,3 +46,14 @@ Open up the `settings.ini` file to configure the following.
   > All Windows OSes should be able to play .wav files. However, other files (.mp3, .avi, etc.) might not be playable if the right codecs or features aren't installed on the OS.
   
   If you are hunting for a camera shutter sound, [SoundJay](https://www.soundjay.com/camera-sound-effect.html) has a nice collection to start with.
+
+- **postProcess** (default: None) <br>
+  A script or command that you can specify to execute after the image has been captured. The following variables can be used in the command.
+  
+  - `{$imgDir}` the directory which the image is stored. E.g., `C:\Users\JohnDoe\Pictures\`.
+  - `{$imgName}` the file name of the image. E.g., `20170524_100935.png`.
+  - `{$imgFullPath}` the full file path of the image. E.g., `C:\Users\JohnDoe\Pictures\20170524_100935.png`.
+  - `{$imgBasename}` the base name of the image. E.g., `20170524_100935`.
+  - `{$imgExt}` the extension of the image. E.g., `png`.
+  
+  For example, let's say you would like to convert every PNG image captured to JPG with [png2jpeg](https://sourceforge.net/projects/png2jpeg/), it would be `postProcess=png2jpeg.exe -q 95 -o "{$imgDir}{$imgBasename}.jpg" "{$imgFullPath}"`
